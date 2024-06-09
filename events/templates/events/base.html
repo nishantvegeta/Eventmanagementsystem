@@ -1,0 +1,32 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Event Management{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'events/style.css' %}">
+    </head>
+    <body>
+        <header>
+            <h1>Event Management System</h1>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'event_list' %}">Events</a></li>
+                    <li><a href="{% url 'event_create' %}">Create Events</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+        <footer>
+            <p>&copy; 2024 EVent management</p>
+        </footer>
+    </body>
+</html>
+
+            
