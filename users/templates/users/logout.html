@@ -1,0 +1,10 @@
+<!-- templates/registration/logout.html -->
+
+{% extends 'events/base.html' %}
+{% block title %}Logout{% endblock %}
+
+{% block content %}
+    <h2>You have been logged out</h2>
+    <p>Thank you for visiting. You have successfully logged out.</p>
+    <p><a href="{% url 'login' %}">Login again</a></p>
+{% endblock %}

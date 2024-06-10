@@ -2,12 +2,10 @@
 {% block title %} Event Form{% endblock %}
 
 {% block content %}
-    <h2>{% if event %}Edit Event{% else %}Create Event{% endif %}
+    <h2>{% if event %}Edit Event{% else %}Create Event{% endif %}</h2>
     <form method="post">
         {% csrf_token %}
-
-        {{ form.as_p}}
-
+        {{ form.as_p }}
         <button type="submit">{% if event %}Update{% else %}Create{% endif %}</button>
     </form>
 {% endblock %} 

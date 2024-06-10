@@ -16,7 +16,25 @@
                 <ul>
                     <li><a href="{% url 'event_list' %}">Events</a></li>
                     <li><a href="{% url 'event_create' %}">Create Events</a></li>
+                    {% if user.is_authenticated %}
+                    <li>
+                        <form id="logout-form" action="{% url 'logout' %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" style="background:none; border:none; color:blue; text-decoration:underline; cursor:pointer;">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
                 </ul>
+                <form method="get" action={% url 'event_list' %}>
+                    <input type = "text" name="title" placeholder="Title" value="{{ request.GET.title }}">
+                    <input type="date" name="start_date" placeholder="Start Date" value="{{ request.GET.start_date }}">
+                    <input type="date" name="end_date" placeholder="End Date" value="{{ request.GET.end_date }}">
+                    <button type="submit">Filter</button>
+                </form>
             </nav>
         </header>
         <main>

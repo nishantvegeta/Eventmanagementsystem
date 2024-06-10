@@ -8,17 +8,36 @@ from .models import Event
 from django.conf import settings
 from django.shortcuts import redirect, render
 from .forms import EventForm
+from django.utils.dateparse import parse_date
 
 @csrf_exempt
 @require_http_methods(['GET', 'POST', 'PUT', 'DELETE'])
 @login_required
+
 def events(request):
     events_file_path = os.path.join(settings.BASE_DIR, 'events.json')
     
-
     if request.method == 'GET':
         events = read_events(events_file_path)
-        return render(request, 'events/event_list.html', {'events': events})
+
+        title = request.GET.get('title')
+        start_date = request.GET.get('start_date')
+        end_date = request.GET.get('end_date')
+
+        if title:
+            events = [event for event in events if event['title'] == title]
+
+        if start_date:
+            start_date_parsed = parse_date(start_date)
+            events = [event for event in events if parse_date(event['start_date']) >= start_date_parsed]
+        
+        if end_date:
+            end_date_parsed = parse_date(end_date)
+            events = [event for event in events if parse_date(event['end_date']) <= end_date_parsed]
+    
+        return render(request, 'events/event_list.html', {'events':events})
+    
+    return HttpResponse(status = 405)
 
 
 def home_page(request):
@@ -37,7 +56,7 @@ def create_event(request):
             return redirect('event_list')
     else:
         form = EventForm()
-    return redirect(request, 'events/event_form.html', {'form':form})
+    return render(request, 'events/event_form.html', {'form':form, 'event':None})
         
 @login_required
 def update_event(request, title):
@@ -48,19 +67,17 @@ def update_event(request, title):
         return HttpResponse(status=404)
     
     if request.method == 'POST':
-        form = EventForm(request.POST, initial=event)
+        form = EventForm(request.POST)
         if form.is_valid():
             updated_data=form.cleaned_data
-            for event in events:
-                if event['title'] == title:
-                    event.update(updated_data)
-                    break
+            for key, value in updated_data.items():
+                event[key] = value
         write_events(events_file_path, events)
         return redirect('event_list')
     else:
         form = EventForm(initial=event)
         
-    return render(request, 'events/event_form.html', {'event': event})
+    return render(request, 'events/event_form.html', {'form':form, 'event': event})
 
 @login_required
 def delete_event(request, title):
