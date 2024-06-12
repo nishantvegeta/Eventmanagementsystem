@@ -3,9 +3,19 @@
 
 {% block content %}
     <h2>{% if event %}Edit Event{% else %}Create Event{% endif %}</h2>
-    <form method="post">
+    <form method="post" {% if event %}action="{% url 'event_update' event.title %}"{% else %}action="{% url 'event_create' %}"{% endif %}>
         {% csrf_token %}
-        {{ form.as_p }}
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" value="{% if event %}{{ event.title }}{% endif %}" required><br><br>
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" required>{% if event %}{{ event.description }}{% endif %}</textarea><br><br>
+        <label for="total_participants">Total Participants:</label><br>
+        <input type="number" id="total_participants" name="total_participants" value="{% if event %}{{ event.total_participants }}{% endif %}" required><br><br>
+        <label for="start_date">Start Date:</label><br>
+        <input type="date" id="start_date" name="start_date" value="{% if event %}{{ event.start_date }}{% endif %}" required><br><br>
+        <label for="end_date">End Date:</label><br>
+        <input type="date" id="end_date" name="end_date" value="{% if event %}{{ event.end_date }}{% endif %}" required><br><br>
         <button type="submit">{% if event %}Update{% else %}Create{% endif %}</button>
     </form>
+  
 {% endblock %} 

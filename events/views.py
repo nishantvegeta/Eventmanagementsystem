@@ -24,6 +24,7 @@ def events(request):
         start_date = request.GET.get('start_date')
         end_date = request.GET.get('end_date')
 
+
         if title:
             events = [event for event in events if event['title'] == title]
 
@@ -47,16 +48,24 @@ def home_page(request):
 def create_event(request):
     events_file_path = os.path.join(settings.BASE_DIR, 'events.json')
     if request.method == 'POST':
-        form = EventForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            events = read_events(events_file_path)
-            events.append(data)
-            write_events(events_file_path, events)
-            return redirect('event_list')
-    else:
-        form = EventForm()
-    return render(request, 'events/event_form.html', {'form':form, 'event':None})
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        total_participants = request.POST.get('total_participants')
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        
+        event = {
+            'title': title,
+            'description': description,
+            'total_participants': total_participants,
+            'start_date': start_date,
+            'end_date': end_date
+        }
+        events = read_events(events_file_path)
+        events.append(event)
+        write_events(events_file_path, events)
+        return redirect('event_list')
+    return render(request, 'events/event_form.html', {'event':None})
         
 @login_required
 def update_event(request, title):
@@ -65,19 +74,20 @@ def update_event(request, title):
     event = next((event for event in events if event['title'] == title), None)
     if not event:
         return HttpResponse(status=404)
-    
+    if request.method == 'GET':
+     return render(request, 'events/event_form.html', { 'event': event})
+
     if request.method == 'POST':
-        form = EventForm(request.POST)
-        if form.is_valid():
-            updated_data=form.cleaned_data
-            for key, value in updated_data.items():
-                event[key] = value
-        write_events(events_file_path, events)
-        return redirect('event_list')
+        data = dict(request.POST)
+        event_data = {key: value[0] for key, value in data.items()}
+        event.update(event_data)  # Update the event dictionary directly
+        write_events(events_file_path, events)  # Rewrite the JSON file with updated events
+        return render(request, 'events/event_list.html', {'event': event})
+
     else:
-        form = EventForm(initial=event)
-        
-    return render(request, 'events/event_form.html', {'form':form, 'event': event})
+        event = get_event(title)
+        return render(request, 'events/event_list.html', {'event': event})
+
 
 @login_required
 def delete_event(request, title):
@@ -92,7 +102,7 @@ def delete_event(request, title):
         write_events(events_file_path, events)
         return redirect('event_list')
     
-    return render(request, 'events/event_confirm_delete.html', {'event': event})
+    return redirect('event_list')
 
 def read_events(events_file_path):
     try:
@@ -104,3 +114,19 @@ def read_events(events_file_path):
 def write_events(events_file_path, events):
     with open(events_file_path, 'w') as f:
         json.dump(events, f, indent=4)
+
+
+
+def get_event(title):
+    # Load the events from the JSON file
+    with open('events.json', 'r') as file:
+        events = json.load(file)
+
+    # Find the event with the matching title
+    for event in events:
+        if event['title'] == title:
+            print(event)
+        return event
+
+    # If no event is found, return None
+    return None

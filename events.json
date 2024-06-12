@@ -1,23 +1,17 @@
 [
     {
-        "title": "Hackathon",
-        "description": "A coding comp",
-        "total_participants": 60,
+        "title": "seminar ",
+        "description": "a good discussion about college...",
+        "total_participants": "60",
         "start_date": "2024-06-07",
-        "end_date": "2024-06-11"
+        "end_date": "2024-06-11",
+        "csrfmiddlewaretoken": "ouqYO6zr1LnwFgaTMYfP4sGWfsdOkYJIolXwzrDjTqYi0pAnvPL9GjvP7Q5I2P2l"
     },
     {
-        "title": "seminar",
-        "description": "school graduation",
-        "total_participants": 60,
-        "start_date": "2024-06-07",
-        "end_date": "2024-06-11"
-    },
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {}
+        "title": "asdasd",
+        "description": "asdasdasd",
+        "total_participants": "13",
+        "start_date": "2024-06-13",
+        "end_date": "2024-06-14"
+    }
 ]

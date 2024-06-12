@@ -11,8 +11,13 @@
                 <p>Participants:{{ event.total_participants }}</p>
                 <p>Start Date:{{ event.start_date }}</p>
                 <p>End Date:{{ event.end_date }}</p>
-                <a href="{% url 'event_update' event.title %}">Edit</a>
-                <a href="{% url 'event_delete' event.title %}">Delete</a>
+                {% if event.title %}
+                    <a href="{% url 'event_update' event.title %}">Edit</a>
+                    <a href="{% url 'event_delete' event.title %}">Delete</a>
+                {% else %}
+                    <span>Edit</span> 
+                    <span>Delete</span>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
