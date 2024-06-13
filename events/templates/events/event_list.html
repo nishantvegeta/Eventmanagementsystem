@@ -1,8 +1,12 @@
-{% extends 'events/base.html' %}
-{% block title %} Event List{% endblock %}
-
+{% extends "events/base.html" %}
 {% block content %}
     <h2>Event List</h2>
+
+    <form method="get">
+        {{ filter_form.as_p }}
+        <button type="submit">Filter</button>
+    </form>
+
     <ul>
         {% for event in events %}
             <li>
@@ -12,13 +16,13 @@
                 <p>Start Date:{{ event.start_date }}</p>
                 <p>End Date:{{ event.end_date }}</p>
                 {% if event.title %}
-                    <a href="{% url 'event_update' event.title %}">Edit</a>
+                    <a href="{% url 'event_update' event.title %}">Edit</a> |
                     <a href="{% url 'event_delete' event.title %}">Delete</a>
                 {% else %}
-                    <span>Edit</span> 
+                    <span>Edit</span>
                     <span>Delete</span>
                 {% endif %}
-            </li>
+                </li>
         {% endfor %}
     </ul>
 {% endblock %}

@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Event
 from django.conf import settings
 from django.shortcuts import redirect, render
-from .forms import EventForm
+from .forms import EventForm, EventFilterForm
 from django.utils.dateparse import parse_date
 
 @csrf_exempt
@@ -16,30 +16,24 @@ from django.utils.dateparse import parse_date
 
 def events(request):
     events_file_path = os.path.join(settings.BASE_DIR, 'events.json')
-    
-    if request.method == 'GET':
-        events = read_events(events_file_path)
+    events = read_events(events_file_path)
 
-        title = request.GET.get('title')
-        start_date = request.GET.get('start_date')
-        end_date = request.GET.get('end_date')
-
+    filter_form = EventFilterForm(request.GET)
+    if filter_form.is_valid():
+        title = filter_form.cleaned_data.get('title')
+        start_date = filter_form.cleaned_data.get('start_date')
+        end_date = filter_form.cleaned_data.get('end_date')
 
         if title:
-            events = [event for event in events if event['title'] == title]
-
+            events = [event for event in events if title.lower() in event['title'].lower()]
         if start_date:
-            start_date_parsed = parse_date(start_date)
-            events = [event for event in events if parse_date(event['start_date']) >= start_date_parsed]
-        
+            events = [event for event in events if event['start_date'] >= start_date.isoformate()]
         if end_date:
-            end_date_parsed = parse_date(end_date)
-            events = [event for event in events if parse_date(event['end_date']) <= end_date_parsed]
-    
-        return render(request, 'events/event_list.html', {'events':events})
-    
-    return HttpResponse(status = 405)
+            events = [event for event in events if event['end_date'] <= end_date.isoformat()]
 
+    return render(request, 'events/event_list.html', {'events':events, 'filter_form': filter_form})
+    
+ 
 
 def home_page(request):
     return render(request, 'events/base.html', {})
