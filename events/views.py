@@ -27,7 +27,7 @@ def events(request):
         if title:
             events = [event for event in events if title.lower() in event['title'].lower()]
         if start_date:
-            events = [event for event in events if event['start_date'] >= start_date.isoformate()]
+            events = [event for event in events if event['start_date'] >= start_date.isoformat()]
         if end_date:
             events = [event for event in events if event['end_date'] <= end_date.isoformat()]
 
