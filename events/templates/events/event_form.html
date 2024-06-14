@@ -3,7 +3,7 @@
 
 {% block content %}
     <h2>{% if event %}Edit Event{% else %}Create Event{% endif %}</h2>
-    <form method="post" {% if event %}action="{% url 'event_update' event.title %}"{% else %}action="{% url 'event_create' %}"{% endif %}>
+    <form method="post" {% if event %}action="{% url 'event_update' event.id %}"{% else %}action="{% url 'event_create' %}"{% endif %}>
         {% csrf_token %}
         <label for="title">Title:</label><br>
         <input type="text" id="title" name="title" value="{% if event %}{{ event.title }}{% endif %}" required><br><br>

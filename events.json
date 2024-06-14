@@ -1,19 +1,6 @@
 [
     {
-        "title": "seminar ",
-        "description": "a good discussion about college...",
-        "total_participants": "60",
-        "start_date": "2024-06-07",
-        "end_date": "2024-06-11"
-    },
-    {
-        "title": "asdasd",
-        "description": "asdasdasd",
-        "total_participants": "13",
-        "start_date": "2024-06-13",
-        "end_date": "2024-06-14"
-    },
-    {
+        "id": 3,
         "title": "college getway",
         "description": "former passed out students gather ",
         "total_participants": "200",
@@ -21,9 +8,18 @@
         "end_date": "2024-06-21"
     },
     {
-        "title": "yo",
-        "description": "yo",
-        "total_participants": "60",
+        "id": 5,
+        "title": "Seminar",
+        "description": "about python programming language",
+        "total_participants": "30",
+        "start_date": "2024-06-24",
+        "end_date": "2024-06-28"
+    },
+    {
+        "id": 6,
+        "title": "hackathon",
+        "description": "a good place to learn something",
+        "total_participants": "100",
         "start_date": "2024-06-26",
         "end_date": "2024-06-29"
     }

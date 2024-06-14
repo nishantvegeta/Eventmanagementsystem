@@ -48,24 +48,28 @@ def create_event(request):
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
         
+        events = read_events(events_file_path)
+        new_id = max(event['id'] for event in events) + 1 if events else 1
+
         event = {
+            'id': new_id,
             'title': title,
             'description': description,
             'total_participants': total_participants,
             'start_date': start_date,
             'end_date': end_date
         }
-        events = read_events(events_file_path)
+
         events.append(event)
         write_events(events_file_path, events)
         return redirect('event_list')
     return render(request, 'events/event_form.html', {'event':None})
         
 @login_required
-def update_event(request, title):
+def update_event(request, id):
     events_file_path = os.path.join(settings.BASE_DIR, 'events.json')
     events = read_events(events_file_path)
-    event = next((event for event in events if event['title'] == title), None)
+    event = next((event for event in events if event['id'] == int(id)), None)
     if not event:
         return HttpResponse(status=404)
     if request.method == 'GET':
@@ -79,24 +83,26 @@ def update_event(request, title):
         return render(request, 'events/event_list.html', {'event': event})
 
     else:
-        event = get_event(title)
+        event = get_event(id)
         return render(request, 'events/event_list.html', {'event': event})
 
 
 @login_required
-def delete_event(request, title):
+def delete_event(request, id):
     events_file_path = os.path.join(settings.BASE_DIR, 'events.json')
     events = read_events(events_file_path)
-    event = next((event for event in events if event['title'] == title), None)
+    event = next((event for event in events if event['id'] == int(id)), None)
     if not event:
         return HttpResponse(status=404)
+    if request.method == 'GET':
+     return render(request, 'events/event_confirm_delete.html', { 'event': event})
     
     if request.method == 'POST':
         events.remove(event)
         write_events(events_file_path, events)
         return redirect('event_list')
     
-    return redirect('event_list')
+    return redirect(request, 'events/event_list.html', {'event': event})
 
 def read_events(events_file_path):
     try:
