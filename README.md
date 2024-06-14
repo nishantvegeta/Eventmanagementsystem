@@ -2,7 +2,7 @@
 # Event Management System
 
 
-An event management application such as a hackathon, seminar, college fest, etc., The event management application allows organizers/users to perform CRUD operations on events.The management application can stores data in a JSON file instead of a database.Only the aythenticated users can perform CRUD operations.
+An event management application such as a hackathon, seminar, college fest, etc., The event management application allows organizers/users to perform CRUD operations on events.The management application can stores data in a JSON file instead of a database.Only the authenticated users can perform CRUD operations.
 
 ## Run Locally
 
