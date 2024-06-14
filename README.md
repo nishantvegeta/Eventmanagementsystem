@@ -26,4 +26,9 @@ Start the server
 ```
 
 ![screenshot](screenshots/login.jpg "Login")
+![screenshot](screenshots/eventlist.jpg "Events")
+![screenshot](screenshots/create_event.jpg "Create Events")
+![screenshot](screenshots/update_event.jpg "Update Events")
+![screenshot](screenshots/delete_event.jpg "Delete Events")
+
 
