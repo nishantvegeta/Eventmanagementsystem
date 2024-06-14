@@ -1,19 +1,12 @@
 [
     {
-        "id": 3,
-        "title": "college getway",
-        "description": "former passed out students gather ",
-        "total_participants": "200",
-        "start_date": "2024-06-19",
-        "end_date": "2024-06-21"
-    },
-    {
         "id": 5,
         "title": "Seminar",
         "description": "about python programming language",
-        "total_participants": "30",
+        "total_participants": "60",
         "start_date": "2024-06-24",
-        "end_date": "2024-06-28"
+        "end_date": "2024-06-28",
+        "csrfmiddlewaretoken": "Ue8sMgoyQkBsUWcf2E5U2QiNfRuDOpg1zzQoN2DbQ4heMDohxBa2DVKhVnHYB5IH"
     },
     {
         "id": 6,
@@ -21,6 +14,14 @@
         "description": "a good place to learn something",
         "total_participants": "100",
         "start_date": "2024-06-26",
+        "end_date": "2024-06-29"
+    },
+    {
+        "id": 7,
+        "title": "college fest",
+        "description": "party at college",
+        "total_participants": "250",
+        "start_date": "2024-06-28",
         "end_date": "2024-06-29"
     }
 ]
